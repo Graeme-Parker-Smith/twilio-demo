@@ -1,3 +1,6 @@
+/* eslint-disable promise/catch-or-return */
+/* eslint-disable promise/no-nesting */
+/* eslint-disable consistent-return */
 /* eslint-disable promise/always-return */
 const admin = require("firebase-admin");
 
@@ -26,7 +29,8 @@ module.exports = function(req, res) {
         ref.update({ codeValid: false });
         admin
           .auth()
-          .createCustomToken(phone, token => res.send({ token: token }));
+          .createCustomToken(phone)
+          .then(token => res.send({ token: token }));
       });
     })
     .catch(err => res.status(422).send({ error: err }));
